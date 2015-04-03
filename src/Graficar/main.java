@@ -5,17 +5,27 @@
  */
 package Graficar;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.util.Random;
+
 /**
  *
  * @author Edson Al
  */
 public class main extends javax.swing.JFrame {
-
+    Point ant;
+     Graphics g;
+     float a=1,b=63,c=0;
     /**
      * Creates new form main
      */
     public main() {
         initComponents();
+        g = canvas1.getGraphics();
     }
 
     /**
@@ -36,6 +46,16 @@ public class main extends javax.swing.JFrame {
 
         canvas1.setBackground(new java.awt.Color(255, 255, 255));
         canvas1.setPreferredSize(new java.awt.Dimension(500, 500));
+        canvas1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                canvas1MousePressed(evt);
+            }
+        });
+        canvas1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                canvas1MouseDragged(evt);
+            }
+        });
 
         jToggleButton1.setText("Borrar");
 
@@ -75,6 +95,25 @@ public class main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void canvas1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MousePressed
+        Random rnd = new Random();
+        
+            
+            g.setColor(Color.getHSBColor(a, b, c));
+        ant=evt.getPoint();
+        a+=63;
+            b+=33;
+            c+=20;
+        
+    }//GEN-LAST:event_canvas1MousePressed
+
+    private void canvas1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MouseDragged
+        // TODO add your handling code here:
+        
+        paint(g,evt.getPoint());
+        ant=evt.getPoint();
+    }//GEN-LAST:event_canvas1MouseDragged
+
     /**
      * @param args the command line arguments
      */
@@ -109,6 +148,11 @@ public class main extends javax.swing.JFrame {
             }
         });
     }
+    public void paint(Graphics g,Point punto){
+     Graphics2D _g= (Graphics2D) g; 
+    _g.setStroke(new BasicStroke(3));
+    _g.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
+  }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Canvas canvas1;
