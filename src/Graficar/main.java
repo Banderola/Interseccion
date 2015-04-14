@@ -10,7 +10,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.util.Random;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -18,14 +18,21 @@ import java.util.Random;
  */
 public class main extends javax.swing.JFrame {
     Point ant;
-     Graphics g;
-     float a=1,b=63,c=0;
-    /**
-     * Creates new form main
-     */
+    Graphics g;
+    Graphics g2;
+    BufferedImage image;
+    float a=1,b=63,c=0;
+    int coun=0;
+     
     public main() {
+        
         initComponents();
-        g = canvas1.getGraphics();
+        image=new BufferedImage(canvas1.getWidth(), canvas1.getHeight(),BufferedImage.TYPE_INT_ARGB);
+        g = image.getGraphics();
+        g2= canvas1.getGraphics();
+               
+        
+        
     }
 
     /**
@@ -41,6 +48,7 @@ public class main extends javax.swing.JFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,10 +66,27 @@ public class main extends javax.swing.JFrame {
         });
 
         jToggleButton1.setText("Borrar");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Calcular");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Checar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -75,6 +100,8 @@ public class main extends javax.swing.JFrame {
                         .addComponent(jToggleButton1)
                         .addGap(151, 151, 151)
                         .addComponent(jButton2)
+                        .addGap(59, 59, 59)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)))
                 .addContainerGap())
@@ -85,34 +112,55 @@ public class main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton1)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jToggleButton1)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void canvas1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MousePressed
-        Random rnd = new Random();
+    
         
-            
-            g.setColor(Color.getHSBColor(a, b, c));
+        g.setColor(Color.getHSBColor(a, b, c));
+        g2.setColor(Color.getHSBColor(a, b, c));
         ant=evt.getPoint();
         a+=63;
-            b+=33;
-            c+=20;
+        b+=33;
+        c+=20;
         
     }//GEN-LAST:event_canvas1MousePressed
 
     private void canvas1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MouseDragged
-        // TODO add your handling code here:
-        
-        paint(g,evt.getPoint());
+
+        curva(evt.getPoint());
         ant=evt.getPoint();
     }//GEN-LAST:event_canvas1MouseDragged
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+        canvas1.repaint();
+        
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,16 +196,32 @@ public class main extends javax.swing.JFrame {
             }
         });
     }
-    public void paint(Graphics g,Point punto){
-     Graphics2D _g= (Graphics2D) g; 
-    _g.setStroke(new BasicStroke(3));
-    _g.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
+    public void curva(Point punto){
+     
+        int col=image.getRGB((int)punto.getX(), (int)punto.getY());
+        if(col!=image.getRGB((int)ant.getX(), (int)ant.getY())&& col!=0 )
+        {
+           coun++;
+           jLabel1.setText( Integer.toString(coun)); 
+           
+        }
+        
+       
+      
+     Graphics2D _g2= (Graphics2D) g2; 
+     g.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
+    _g2.setStroke(new BasicStroke(3));
+    _g2.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
+   //_g2.drawOval((int)punto.getX(), (int)punto.getY(), 1, 1);
+    //image.setRGB((int)punto.getX(), (int)punto.getY(), _g.getColor().getRGB());
+    
   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Canvas canvas1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }
