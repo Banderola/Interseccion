@@ -215,7 +215,7 @@ public class main extends javax.swing.JFrame {
                                 s=dif/Math.abs(dif);
                                 while(inc!=punto.getY())
                                 {
-                                    g2.drawOval((int)punto.getX(), (int)inc, 1, 1);
+                                    //g2.drawOval((int)punto.getX(), (int)inc, 1, 1);
                                     checar((int)punto.getX(),(int)inc,colant);
                                     inc+=s;
                                     
@@ -223,17 +223,32 @@ public class main extends javax.swing.JFrame {
                                 }
                 
                             }
-                            else if(dif2>-6 && dif2<6 && ant.getY()!=punto.getY())
+                            else if(dif2>-4 && dif2<4 && ant.getY()!=punto.getY())
                             {
                                 int s2=dif/Math.abs(dif);
-                                inc=punto.getX();
+                                inc=ant.getX();
                                 dy=ant.getY();
                                 s=dif2/Math.abs(dif2);
+                                while(inc!=punto.getX())
+                                {
+                                    inc+=s;
+                                    //g2.drawOval((int)inc , (int)dy, 1, 1);
+                                    checar((int)inc,(int)dy,colant);
+                                    
+                                }
                                 while(dy!=punto.getY())
                                 {
-                                    g2.drawOval((int)inc , (int)dy, 1, 1);
+                                    //g2.drawOval((int)inc , (int)dy, 1, 1);
                                     checar((int)inc,(int)dy,colant);
-                                    dy-=s;
+                                    if(s!=s2)
+                                    {
+                                        dy-=s;
+                                    }
+                                    else
+                                    {
+                                        dy+=s;
+                                    }
+                                    
                                     
                                 }
                                 
@@ -246,7 +261,7 @@ public class main extends javax.swing.JFrame {
                                 s=(dif2)/Math.abs(dif2);
                                 while(inc!=punto.getX() || punto.getY()!=dy)
                                 {
-                                    g2.drawOval((int)inc, (int)dy, 1, 1);
+                                    //g2.drawOval((int)inc, (int)dy, 1, 1);
                                     checar((int)inc,(int)dy,colant);
                                     inc+=s;
                                     dy=((((int)ant.getY()-(int)punto.getY())*((int)punto.getX()-inc))/((int)punto.getX()-(int)ant.getX()))+(int)punto.getY();
@@ -256,7 +271,7 @@ public class main extends javax.swing.JFrame {
                        
                                 }
                             }
-                            g2.drawOval((int)punto.getX(), (int)punto.getY(), 1, 1);
+                            //g2.drawOval((int)punto.getX(), (int)punto.getY(), 1, 1);
                             checar((int)punto.getX(),(int)punto.getY(),colant);
                                     
                            
@@ -270,12 +285,12 @@ public class main extends javax.swing.JFrame {
       
      Graphics2D _g2= (Graphics2D) g2; 
      Graphics2D _g= (Graphics2D) g;
-     _g.setStroke(new BasicStroke(2));
+     _g.setStroke(new BasicStroke(3));
      _g.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
      //_g.drawOval((int)punto.getX(), (int)punto.getY(), 3, 3);
      //g2.drawOval((int)punto.getX(), (int)punto.getY(), 2, 2);
-    //_g2.setStroke(new BasicStroke(3));
-   // _g2.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
+    _g2.setStroke(new BasicStroke(3));
+    _g2.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
    
     
   }
