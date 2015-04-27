@@ -203,42 +203,41 @@ public class main extends javax.swing.JFrame {
     public void curva(Point punto){
             int dif=((int)punto.getY()-(int)ant.getY());
             int dif2=((int)punto.getX()-(int)ant.getX());
-            double inc=0;
+            int inc=0;
             int s=0;
-            double dy=0;
+            int dy=0;
             
-                
-                           
-                            if(punto.getX()==ant.getX())
+                       if(punto.getX()==ant.getX())
                             {
                                 inc=(int)ant.getY();
                                 s=dif/Math.abs(dif);
                                 while(inc!=punto.getY())
                                 {
-                                    //g2.drawOval((int)punto.getX(), (int)inc, 1, 1);
+                                    
                                     checar((int)punto.getX(),(int)inc,colant);
                                     inc+=s;
-                                    
                        
                                 }
                 
                             }
-                            else if(dif2>-4 && dif2<4 && ant.getY()!=punto.getY())
+                            else if(dif2>-3 && dif2<3 && ant.getY()!=punto.getY())
                             {
                                 int s2=dif/Math.abs(dif);
-                                inc=ant.getX();
-                                dy=ant.getY();
+                                inc=(int)ant.getX();
+                                dy=(int)ant.getY();
                                 s=dif2/Math.abs(dif2);
                                 while(inc!=punto.getX())
                                 {
-                                    inc+=s;
-                                    //g2.drawOval((int)inc , (int)dy, 1, 1);
+                                    
+                                   
                                     checar((int)inc,(int)dy,colant);
+                                    inc+=s;
                                     
                                 }
+                                inc-=s;
                                 while(dy!=punto.getY())
                                 {
-                                    //g2.drawOval((int)inc , (int)dy, 1, 1);
+                                    
                                     checar((int)inc,(int)dy,colant);
                                     if(s!=s2)
                                     {
@@ -261,7 +260,7 @@ public class main extends javax.swing.JFrame {
                                 s=(dif2)/Math.abs(dif2);
                                 while(inc!=punto.getX() || punto.getY()!=dy)
                                 {
-                                    //g2.drawOval((int)inc, (int)dy, 1, 1);
+                                    
                                     checar((int)inc,(int)dy,colant);
                                     inc+=s;
                                     dy=((((int)ant.getY()-(int)punto.getY())*((int)punto.getX()-inc))/((int)punto.getX()-(int)ant.getX()))+(int)punto.getY();
@@ -270,9 +269,9 @@ public class main extends javax.swing.JFrame {
                                     
                        
                                 }
-                            }
-                            //g2.drawOval((int)punto.getX(), (int)punto.getY(), 1, 1);
-                            checar((int)punto.getX(),(int)punto.getY(),colant);
+                            
+    }
+                            //checar((int)punto.getX(),(int)punto.getY(),colant);
                                     
                            
                 
@@ -289,15 +288,16 @@ public class main extends javax.swing.JFrame {
      _g.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
      //_g.drawOval((int)punto.getX(), (int)punto.getY(), 3, 3);
      //g2.drawOval((int)punto.getX(), (int)punto.getY(), 2, 2);
-    _g2.setStroke(new BasicStroke(3));
-    _g2.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
+    //_g2.setStroke(new BasicStroke(3));
+    //_g2.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
    
     
   }
     void checar(int x,int y,int colant)
     {
         int col=image.getRGB(x,y);
-        if(col!=0 && col!=colant&& valid==true)
+        g2.drawOval((int)x , (int)y, 1, 1);
+        if(col!=0 && col!=colant && valid==true)
         {
             coun++;
             valid=false;
@@ -310,6 +310,7 @@ public class main extends javax.swing.JFrame {
         }
         
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Canvas canvas1;
