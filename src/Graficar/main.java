@@ -26,7 +26,7 @@ public class main extends javax.swing.JFrame {
     float a=1,b=63,c=0;
     int coun=0;
     boolean valid=true;
-     
+    int esp=0;
     public main() {
         
         initComponents();
@@ -135,7 +135,7 @@ public class main extends javax.swing.JFrame {
         
         colant=Color.getHSBColor(a, b, c).getRGB();
         ant=evt.getPoint();
-        checar((int)ant.getX(),(int)ant.getY());
+        checar((int)ant.getX(),(int)ant.getY(),false,0,0);
             
             a+=63;
             b+=33;
@@ -211,6 +211,7 @@ public class main extends javax.swing.JFrame {
             int s2=0;
             int dy=(int)punto.getY();
             int dy2=(int)ant.getY();
+            
            
             
                             if(punto.getX()==ant.getX())
@@ -222,7 +223,7 @@ public class main extends javax.swing.JFrame {
                                     
                                     
                                     inc+=s;
-                                    checar((int)punto.getX(),(int)inc);
+                                    checar((int)punto.getX(),(int)inc,false,0,0);
                        
                                 }
                                 
@@ -238,7 +239,7 @@ public class main extends javax.swing.JFrame {
                                     
                                     
                                     inc+=s;
-                                    checar((int)inc,(int)punto.getY());
+                                    checar((int)inc,(int)punto.getY(),false,0,0);
                        
                                 }
                                 
@@ -250,10 +251,11 @@ public class main extends javax.swing.JFrame {
                             {
                                 
                                 s=(difx)/Math.abs(difx);
+                                s2=dify/Math.abs(dify);
                                 inc+=s;
                                 if(dify>1||dify<-1)
                                 {
-                                 s2=dify/Math.abs(dify);
+                                
                                  while(dy2!=dy)
                                  {
                                    if(s!=s2)
@@ -265,12 +267,12 @@ public class main extends javax.swing.JFrame {
                                                 dy2+=s;
                                             } 
                                     
-                                    checar((int)inc,dy2);
+                                    checar((int)inc,dy2,true,s,s2);
                                     
                        
                                 }
                                 }
-                                checar((int)punto.getX(),(int)punto.getY());
+                                checar((int)punto.getX(),(int)punto.getY(),true,s,s2);
                             }
                             
                             
@@ -279,6 +281,7 @@ public class main extends javax.swing.JFrame {
                             {
                                
                                 s=(difx)/Math.abs(difx);
+                                s2=dify/Math.abs(dify);
                                 while(inc!=punto.getX())
                                 {
                                     
@@ -287,7 +290,7 @@ public class main extends javax.swing.JFrame {
                                     
                                        if((dy-dy2)>1||(dy-dy2)<-1)
                                         {
-                                            s2=dify/Math.abs(dify);
+                                            
                                             while(dy!=dy2)
                                             {
                                     
@@ -300,7 +303,7 @@ public class main extends javax.swing.JFrame {
                                                 {
                                                     dy2+=s;
                                                 }
-                                                checar((int)inc,(int)dy2);
+                                                checar((int)inc,(int)dy2,true,s,s2);
                                             
                                     
                                     
@@ -309,7 +312,7 @@ public class main extends javax.swing.JFrame {
                                        
                                         }
                                         dy2=dy;     
-                                        checar((int)inc,dy);
+                                        checar((int)inc,dy,true,s,s2);
                                     
                                 }
                                 
@@ -334,36 +337,93 @@ public class main extends javax.swing.JFrame {
      //_g.setStroke(new BasicStroke(1));
      //_g.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
      //_g.drawOval((int)punto.getX(), (int)punto.getY(), 3, 3);
-    //g2.drawOval((int)punto.getX(), (int)punto.getY(), 2, 2);
-    //_g2.setStroke(new BasicStroke(3));
-    //_g2.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
+     
+     //g2.drawOval((int)punto.getX(), (int)punto.getY(), 2, 2);
+   _g2.setStroke(new BasicStroke(2));
+   _g2.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
    
     
   }
-    void checar(int x,int y)
+    void checar(int x,int y,boolean pen,int sx,int sy)
     {
         
         int col=image.getRGB(x,y);
         
         int col1=image.getRGB(x,y-1);
         int col2=image.getRGB(x-1,y);
-        int col3=image.getRGB(x+1,y);
-        int col4=image.getRGB(x,y+1);
+        int col3=image.getRGB(x,y+1);
+        int col4=image.getRGB(x+1,y);
         //g2.drawOval((int)x , (int)y, 1, 1);
-        if((col!=0  && col!=colant && valid==true))
+        if(pen==false)
+        {
+            if((col!=0   && col!=colant && valid==true))
+            {
+                valid=false;
+                coun++;
+                jLabel1.setText( Integer.toString(coun)); 
+                         
+            }
+            else if(col==0)
+            {
+                
+                     valid=true;  
+            }
+        }
+        
+        else
+        {
+            
+            if(sx==1 && sy==-1)
+            {
+                validar(col,col1,col4);
+                
+                
+            }
+            else if(sx==-1 && sy==1)
+            {
+                validar(col,col2,col3);
+                
+                
+            }
+            else if(sx==-1 && sy==-1)
+            {
+                validar(col,col1,col2);
+                
+                
+            }
+            else  if(sx==1 && sy==1)
+            {
+               validar(col,col3,col4);
+                
+            }
+            
+           
+        }
+                                    
+        
+       
+       //g2.drawOval(x, y, 3, 3);
+        
+        image.setRGB(x, y, colant);
+        //int a=0;
+        
+    }
+    void validar(int col,int col1,int col2)
+    {
+        if((col1!=0 && col1!=colant && col1==col2 && valid==true)||(col!=0  && col!=colant && valid==true))
         {
             valid=false;
             coun++;
-            jLabel1.setText( Integer.toString(coun)); 
+            jLabel1.setText( Integer.toString(coun));
+                    
+                    
         }
-                                    
         else if(col==0)
         {
+                
             valid=true;
+                
         }
-        g.drawOval(x, y, 1, 1);
-        g2.drawOval(x, y, 1, 1);
-        int a=0;
         
     }
     
