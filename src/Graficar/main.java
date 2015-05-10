@@ -336,7 +336,7 @@ public class main extends javax.swing.JFrame {
      Graphics2D _g= (Graphics2D) g;
      //_g.setStroke(new BasicStroke(1));
      //_g.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
-     //_g.drawOval((int)punto.getX(), (int)punto.getY(), 3, 3);
+     //g2.drawOval((int)punto.getX(), (int)punto.getY(), 2, 2);
      
      //g2.drawOval((int)punto.getX(), (int)punto.getY(), 2, 2);
    _g2.setStroke(new BasicStroke(2));
@@ -366,7 +366,12 @@ public class main extends javax.swing.JFrame {
             else if(col==0)
             {
                 
-                     valid=true;  
+                esp++;
+                if(esp==2)
+                {
+                    esp=0; 
+                    valid=true;
+                }
             }
         }
         
@@ -375,25 +380,25 @@ public class main extends javax.swing.JFrame {
             
             if(sx==1 && sy==-1)
             {
-                validar(col,col1,col4);
+                validar(col,col1,col4,col2,col3);
                 
                 
             }
             else if(sx==-1 && sy==1)
             {
-                validar(col,col2,col3);
+                validar(col,col2,col3,col1,col4);
                 
                 
             }
             else if(sx==-1 && sy==-1)
             {
-                validar(col,col1,col2);
+                validar(col,col1,col2,col3,col4);
                 
                 
             }
             else  if(sx==1 && sy==1)
             {
-               validar(col,col3,col4);
+               validar(col,col3,col4,col1,col2);
                 
             }
             
@@ -402,15 +407,15 @@ public class main extends javax.swing.JFrame {
                                     
         
        
-       //g2.drawOval(x, y, 3, 3);
+        //g2.drawOval(x, y, 1, 1);
         
         image.setRGB(x, y, colant);
         //int a=0;
         
     }
-    void validar(int col,int col1,int col2)
+    void validar(int col,int col1,int col2,int col3,int col4)
     {
-        if((col1!=0 && col1!=colant && col1==col2 && valid==true)||(col!=0  && col!=colant && valid==true))
+        if((col1!=0 && col1!=colant && col1==col2 && valid==true)||(col3!=0 && col3!=colant && col3==col4 && valid==true)||(col!=0  && col!=colant && valid==true))
         {
             valid=false;
             coun++;
@@ -420,8 +425,13 @@ public class main extends javax.swing.JFrame {
         }
         else if(col==0)
         {
-                
-            valid=true;
+            esp++;
+            if(esp==2)
+            {
+              esp=0; 
+              valid=true;
+            }
+            
                 
         }
         
