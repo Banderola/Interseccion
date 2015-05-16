@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 
 /**
@@ -19,6 +20,9 @@ import java.awt.image.BufferedImage;
  */
 public class main extends javax.swing.JFrame {
     Point ant=null;
+    ArrayList<Point> punteros=new ArrayList <Point>();
+    ArrayList<Point> interseccion=new ArrayList <Point>();
+    ArrayList<Linea> lineas = new ArrayList<Linea>();
     int colant=0;
     Graphics g=null;
     Graphics g2=null;
@@ -129,14 +133,15 @@ public class main extends javax.swing.JFrame {
 
     private void canvas1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MousePressed
     
-        
+        punteros.clear();
         g.setColor(Color.getHSBColor(a, b, c));
         g2.setColor(Color.getHSBColor(a, b, c));
         
         colant=Color.getHSBColor(a, b, c).getRGB();
         ant=evt.getPoint();
-        checar((int)ant.getX(),(int)ant.getY(),false,0,0);
-            
+        checar((int)ant.getX(),(int)ant.getY(),0,0);
+        punteros.add(ant); 
+        lineas.add(new Linea(colant));
             a+=63;
             b+=33;
             c+=20;
@@ -154,13 +159,26 @@ public class main extends javax.swing.JFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
-        canvas1.repaint();
-        image.createGraphics().setBackground(Color.WHITE);
+        g2.setColor(Color.WHITE);
+        for (Point temp : punteros) {
+			//canvas1.repaint((int)temp.getX(), (int)temp.getY(), 1, 1);
+                        
+                            image.setRGB((int)temp.getX(), (int)temp.getY(), 0);
+                            g2.drawOval((int)temp.getX(), (int)temp.getY(),1,1);
+                            
+                        
+                        
+		}
+        
+        
+       
+        
         
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+       
        
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -213,7 +231,7 @@ public class main extends javax.swing.JFrame {
             int dy2=(int)ant.getY();
             
            
-            
+                            //Horizontal
                             if(punto.getX()==ant.getX())
                             {
                                 inc=(int)ant.getY();
@@ -223,13 +241,14 @@ public class main extends javax.swing.JFrame {
                                     
                                     
                                     inc+=s;
-                                    checar((int)punto.getX(),(int)inc,false,0,0);
+                                    checar((int)punto.getX(),(int)inc,0,0);
                        
                                 }
                                 
                                
                 
                             }
+                            //Vertical
                             else if(punto.getY()==ant.getY())
                             {
                                 
@@ -239,7 +258,7 @@ public class main extends javax.swing.JFrame {
                                     
                                     
                                     inc+=s;
-                                    checar((int)inc,(int)punto.getY(),false,0,0);
+                                    checar((int)inc,(int)punto.getY(),0,0);
                        
                                 }
                                 
@@ -247,36 +266,10 @@ public class main extends javax.swing.JFrame {
                 
                             }
                             
-                            else if(difx==-1 || difx==1)
-                            {
-                                
-                                s=(difx)/Math.abs(difx);
-                                s2=dify/Math.abs(dify);
-                                inc+=s;
-                                if(dify>1||dify<-1)
-                                {
-                                
-                                 while(dy2!=dy)
-                                 {
-                                   if(s!=s2)
-                                            {
-                                                dy2-=s;
-                                            }
-                                            else
-                                            {
-                                                dy2+=s;
-                                            } 
-                                    
-                                    checar((int)inc,dy2,true,s,s2);
-                                    
-                       
-                                }
-                                }
-                                checar((int)punto.getX(),(int)punto.getY(),true,s,s2);
-                            }
                             
                             
-                           
+                            
+                           //Pendiente
                             else 
                             {
                                
@@ -303,7 +296,7 @@ public class main extends javax.swing.JFrame {
                                                 {
                                                     dy2+=s;
                                                 }
-                                                checar((int)inc,(int)dy2,true,s,s2);
+                                                checar((int)inc,(int)dy2,s,s2);
                                             
                                     
                                     
@@ -312,7 +305,7 @@ public class main extends javax.swing.JFrame {
                                        
                                         }
                                         dy2=dy;     
-                                        checar((int)inc,dy,true,s,s2);
+                                        checar((int)inc,dy,s,s2);
                                     
                                 }
                                 
@@ -331,95 +324,56 @@ public class main extends javax.swing.JFrame {
             
         
        
-      
-     Graphics2D _g2= (Graphics2D) g2; 
-     Graphics2D _g= (Graphics2D) g;
-     //_g.setStroke(new BasicStroke(1));
-     //_g.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
-     //g2.drawOval((int)punto.getX(), (int)punto.getY(), 2, 2);
-     
-     //g2.drawOval((int)punto.getX(), (int)punto.getY(), 2, 2);
+   //Dibujar en el lienzo   
+   Graphics2D _g2= (Graphics2D) g2; 
    _g2.setStroke(new BasicStroke(2));
    _g2.drawLine((int)ant.getX(), (int)ant.getY(), (int)punto.getX(), (int)punto.getY());
    
     
   }
-    void checar(int x,int y,boolean pen,int sx,int sy)
+    void checar(int x,int y,int sx,int sy)
     {
         
         int col=image.getRGB(x,y);
-        
         int col1=image.getRGB(x,y-1);
         int col2=image.getRGB(x-1,y);
         int col3=image.getRGB(x,y+1);
         int col4=image.getRGB(x+1,y);
-        //g2.drawOval((int)x , (int)y, 1, 1);
-        if(pen==false)
-        {
-            if((col!=0   && col!=colant && valid==true))
-            {
-                valid=false;
-                coun++;
-                jLabel1.setText( Integer.toString(coun)); 
-                         
-            }
-            else if(col==0)
-            {
-                
-                esp++;
-                if(esp==2)
-                {
-                    esp=0; 
-                    valid=true;
-                }
-            }
-        }
         
-        else
-        {
+        
+            //Buscar puntos de Interseccion
+            if(sx !=sy)
+            {
+                validar(col,col1,col4,col2,col3,x,y);
+                
+            }
             
-            if(sx==1 && sy==-1)
+            else 
             {
-                validar(col,col1,col4,col2,col3);
-                
-                
-            }
-            else if(sx==-1 && sy==1)
-            {
-                validar(col,col2,col3,col1,col4);
-                
-                
-            }
-            else if(sx==-1 && sy==-1)
-            {
-                validar(col,col1,col2,col3,col4);
-                
-                
-            }
-            else  if(sx==1 && sy==1)
-            {
-               validar(col,col3,col4,col1,col2);
+                validar(col,col1,col2,col3,col4,x,y);
                 
             }
             
            
-        }
-                                    
-        
        
-        //g2.drawOval(x, y, 1, 1);
         
+        //Dibujar puntos en el buffer
+        //g2.drawOval(x, y, 1, 1);    
         image.setRGB(x, y, colant);
-        //int a=0;
+        punteros.add(new Point(x,y));
+        
         
     }
-    void validar(int col,int col1,int col2,int col3,int col4)
+    void validar(int col,int col1,int col2,int col3,int col4,int x,int y)
     {
+        //Buscar Intersecciones 
         if((col1!=0 && col1!=colant && col1==col2 && valid==true)||(col3!=0 && col3!=colant && col3==col4 && valid==true)||(col!=0  && col!=colant && valid==true))
         {
+            interseccion.add(new Point(x,y));
             valid=false;
             coun++;
             jLabel1.setText( Integer.toString(coun));
+            lineas.get(lineas.size()-1).setPunto(new Point(x,y));
                     
                     
         }
@@ -436,6 +390,7 @@ public class main extends javax.swing.JFrame {
         }
         
     }
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
