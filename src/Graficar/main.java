@@ -20,11 +20,8 @@ import java.util.List;
  */
 public class main extends javax.swing.JFrame {
     Point ant=null;
-    ArrayList<Point> punteros=new ArrayList <Point>();
-    ArrayList<Point> interseccion=new ArrayList <Point>();
     List<Linea> lineas = new ArrayList<Linea>();
     int colant=0;
-    boolean eliminar=false;
     Graphics g=null;
     Graphics g2=null;
     BufferedImage image=null;
@@ -32,6 +29,7 @@ public class main extends javax.swing.JFrame {
     int coun=0;
     boolean valid=true;
     int esp=0;
+    
     public main() {
         
         initComponents();
@@ -136,14 +134,14 @@ public class main extends javax.swing.JFrame {
 
     private void canvas1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MousePressed
     
-        punteros.clear();
+        
         g.setColor(Color.getHSBColor(a, b, c));
         g2.setColor(Color.getHSBColor(a, b, c));
         
         colant=Color.getHSBColor(a, b, c).getRGB();
         ant=evt.getPoint();
         
-     punteros.add(ant); 
+     
         lineas.add(new Linea(colant));
         lineas.get(lineas.size()-1).Trazar(ant);
         checar((int)ant.getX(),(int)ant.getY(),0,0);
@@ -164,79 +162,13 @@ public class main extends javax.swing.JFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
-        g2.setColor(Color.WHITE);
-        for (Point temp : punteros) {
-			//canvas1.repaint((int)temp.getX(), (int)temp.getY(), 1, 1);
-                        
-                        for (Point temp2 : interseccion) {  
-                        if(temp.getX()!=temp2.getX()||temp.getY()!=temp2.getY())
-                        {
-                            image.setRGB((int)temp.getX(), (int)temp.getY(), 0);
-                            g2.drawOval((int)temp.getX(), (int)temp.getY(),1,1);
-                            
-                        }
-                        else
-                        {
-                            int col1=image.getRGB((int)temp.getX()-1, (int)temp.getY()-1);
-                            
-                            int col2=image.getRGB((int)temp.getX(), (int)temp.getY()-1);
-                            int col3=image.getRGB((int)temp.getX()+1, (int)temp.getY()-1);
-                            int col4=image.getRGB((int)temp.getX()-1, (int)temp.getY());
-                            int col5=image.getRGB((int)temp.getX(), (int)temp.getY());
-                            int col6=image.getRGB((int)temp.getX()+1, (int)temp.getY());
-                            int col7=image.getRGB((int)temp.getX()-1, (int)temp.getY()+1);
-                            int col8=image.getRGB((int)temp.getX(), (int)temp.getY()+1);
-                            int col9=image.getRGB((int)temp.getX()+1, (int)temp.getY()+1);
-                            if(col1!=0 && col1!=colant)
-                            {
-                                parchar(col1,temp);
-                                
-                        
-                            }
-                            else if(col2!=0 && col2!=colant)
-                            {
-                                parchar(col2,temp);
-                                
-                            }
-                            else if(col3!=0 && col3!=colant)
-                            {
-                                parchar(col3,temp);
-                            }
-                            else if(col4!=0 && col4!=colant)
-                            {
-                                parchar(col4,temp);
-                            }
-                            else if(col5!=0 && col5!=colant)
-                            {
-                                parchar(col5,temp);
-                            }
-                            else if(col6!=0 && col6!=colant)
-                            {
-                                parchar(col6,temp);
-                            }
-                            else if(col7!=0 && col7!=colant)
-                            {
-                                parchar(col7,temp);
-                            }
-                            else if(col8!=0 && col8!=colant)
-                            {
-                                parchar(col8,temp);
-                            }
-                            else 
-                            {
-                                parchar(col9,temp);
-                            }
-                            
-                        }
-                        
-		}
-        
-        
-       
-        
+        Borrar();
+        lineas.clear();
+        coun=0;
+        jLabel1.setText( Integer.toString(coun));
         
     }//GEN-LAST:event_jToggleButton1ActionPerformed
-    }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
        
@@ -259,15 +191,17 @@ public class main extends javax.swing.JFrame {
                         if(temp.getPunto().getX()==temp2.getPunto().getX() && temp.getPunto().getY()==temp2.getPunto().getY())
                         {
                             temp2.getLinea_ant().Borrar(n);
+                            coun--;
+                            jLabel1.setText( Integer.toString(coun));
                             break;
                         }
                         n++;
                 
                     }
             }
-            
-            Borrar();
             lineas.remove(lineas.size()-1);
+            Repintar();
+            
         }
     }//GEN-LAST:event_canvas1MouseReleased
 
@@ -442,9 +376,10 @@ public class main extends javax.swing.JFrame {
        
         
         //Dibujar puntos en el buffer
-        g2.drawOval(x, y, 1, 1);    
+        //g2.drawOval(x, y, 2, 2); 
+        g2.fillOval(x, y, 2, 2);
         image.setRGB(x, y, colant);
-      punteros.add(new Point(x,y));
+        
         
        lineas.get(lineas.size()-1).Trazar(new Point(x,y));
         
@@ -456,7 +391,7 @@ public class main extends javax.swing.JFrame {
         //Buscar Intersecciones 
         if((col1!=0 && col1!=colant && col1==col2 && valid==true)||(col3!=0 && col3!=colant && col3==col4 && valid==true)||(col!=0  && col!=colant && valid==true))
         {
-            interseccion.add(new Point(x,y));
+            
             valid=false;
             coun++;
             jLabel1.setText( Integer.toString(coun));
@@ -491,91 +426,35 @@ public class main extends javax.swing.JFrame {
         
         
     }
-    void parchar(int col,Point temp)
+   
+    void Repintar()
     {
-                                g2.setColor(new Color(col));
-                                image.setRGB((int)temp.getX(), (int)temp.getY(), col);
-                                
-                                g.drawOval((int)temp.getX(), (int)temp.getY(),2,2);
-                                g2.drawOval((int)temp.getX(), (int)temp.getY(),2,2);
-                                //g2.fillOval((int)temp.getX(), (int)temp.getY(),3,3);
-                                //g2.drawOval((int)temp.getX(), (int)temp.getY(),2,2);
-                                g2.setColor(Color.white);
+        Borrar();
+        for (Linea linea : lineas) {
+            Color color=new Color(linea.getColor());
+            g2.setColor(color);
+            for (Point punto : linea.getTrazo()) {
+                g2.fillOval((int)punto.getX(), (int)punto.getY(), 2, 2);
+                image.setRGB((int)punto.getX(), (int)punto.getY(),color.getRGB());
+            
+            }
+            
+        }
     }
     void Borrar()
     {
-         g2.setColor(Color.WHITE);
-        for (Point temp : punteros) {
-			//canvas1.repaint((int)temp.getX(), (int)temp.getY(), 1, 1);
-                        
-                        for (Point temp2 : interseccion) {  
-                        if(temp.getX()!=temp2.getX()||temp.getY()!=temp2.getY())
-                        {
-                            image.setRGB((int)temp.getX(), (int)temp.getY(), 0);
-                            g2.drawOval((int)temp.getX(), (int)temp.getY(),1,1);
-                            
-                        }
-                        else
-                        {
-                            int col1=image.getRGB((int)temp.getX()-1, (int)temp.getY()-1);
-                            
-                            int col2=image.getRGB((int)temp.getX(), (int)temp.getY()-1);
-                            int col3=image.getRGB((int)temp.getX()+1, (int)temp.getY()-1);
-                            int col4=image.getRGB((int)temp.getX()-1, (int)temp.getY());
-                            int col5=image.getRGB((int)temp.getX(), (int)temp.getY());
-                            int col6=image.getRGB((int)temp.getX()+1, (int)temp.getY());
-                            int col7=image.getRGB((int)temp.getX()-1, (int)temp.getY()+1);
-                            int col8=image.getRGB((int)temp.getX(), (int)temp.getY()+1);
-                            int col9=image.getRGB((int)temp.getX()+1, (int)temp.getY()+1);
-                            if(col1!=0 && col1!=colant)
-                            {
-                                parchar(col1,temp);
-                                
-                        
-                            }
-                            else if(col2!=0 && col2!=colant)
-                            {
-                                parchar(col2,temp);
-                                
-                            }
-                            else if(col3!=0 && col3!=colant)
-                            {
-                                parchar(col3,temp);
-                            }
-                            else if(col4!=0 && col4!=colant)
-                            {
-                                parchar(col4,temp);
-                            }
-                            else if(col5!=0 && col5!=colant)
-                            {
-                                parchar(col5,temp);
-                            }
-                            else if(col6!=0 && col6!=colant)
-                            {
-                                parchar(col6,temp);
-                            }
-                            else if(col7!=0 && col7!=colant)
-                            {
-                                parchar(col7,temp);
-                            }
-                            else if(col8!=0 && col8!=colant)
-                            {
-                                parchar(col8,temp);
-                            }
-                            else 
-                            {
-                                parchar(col9,temp);
-                            }
-                            
-                        }
-                        
-		}
+        canvas1.update(g2);
+        g2.setColor(Color.white);
+        for(int i=0;i<canvas1.getWidth();i++)
+        {
+            for(int j=0;j<canvas1.getHeight();j++)
+            {
+                image.setRGB(i, j,0);
+               
+            }
+            
+        }
         
-        
-       
-        
-        
-    }  
     }
     
 
