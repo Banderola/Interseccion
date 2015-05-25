@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class main extends javax.swing.JFrame {
     Point ant=null;
+    boolean error=false;
     List<Linea> lineas = new ArrayList<Linea>();
     int colant=0;
     Graphics g=null;
@@ -181,9 +182,9 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void canvas1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MouseReleased
-        if(lineas.size()-2!=lineas.get(lineas.size()-1).getPuntos().size()-1)
+        if(lineas.size()-2!=lineas.get(lineas.size()-1).getPuntos().size()-1||error==true)
         {
-            
+            error=false;
             
             for (Punto temp : lineas.get(lineas.size()-1).getPuntos()) { 
                 int n=0;
@@ -387,7 +388,7 @@ public class main extends javax.swing.JFrame {
     }
     void validar(int col,int col1,int col2,int col3,int col4,int x,int y)
     {
-        Linea ant;
+        int color;
         //Buscar Intersecciones 
         if((col1!=0 && col1!=colant && col1==col2 && valid==true)||(col3!=0 && col3!=colant && col3==col4 && valid==true)||(col!=0  && col!=colant && valid==true))
         {
@@ -399,15 +400,32 @@ public class main extends javax.swing.JFrame {
             for (Linea ltemp : lineas) {
                 if(col!=0 && ltemp.getColor()==col||col1!=0 && ltemp.getColor()==col1||col3!=0 && ltemp.getColor()==col3)
                 {
+                    for (Punto punto : lineas.get(lineas.size()-1).getPuntos()) {
+                        if(punto.getLinea_ant().getColor()==ltemp.getColor())
+                        {
+                            error=true;
+                            coun--;
+                            break;
+                        }
+                        
+                
+                    }
+                    if(error==false)
+                    {
+                  
+                        lineas.get(lineas.size()-1).setPunto(new Punto(ltemp,lineas.get(lineas.size()-1),x,y));
+                        ltemp.setPunto(new Punto(ltemp,lineas.get(lineas.size()-1),x,y));
+                        
+                    }
                     
-                    lineas.get(lineas.size()-1).setPunto(new Punto(ltemp,lineas.get(lineas.size()-1),x,y));
-                    ltemp.setPunto(new Punto(ltemp,lineas.get(lineas.size()-1),x,y));
                     break;
                     
                 }
                 
                 
             }
+            
+            
                     
                     
         }
