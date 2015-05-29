@@ -361,6 +361,8 @@ public class main extends javax.swing.JFrame {
         
         
             //Buscar puntos de Interseccion
+        if(error==false)
+        {
             if(sx !=sy)
             {
                 validar(col,col1,col4,col2,col3,x,y);
@@ -372,6 +374,9 @@ public class main extends javax.swing.JFrame {
                 validar(col,col1,col2,col3,col4,x,y);
                 
             }
+            
+        }
+            
             
            
        
