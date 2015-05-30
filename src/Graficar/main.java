@@ -52,6 +52,7 @@ public class main extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,7 +93,9 @@ public class main extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("0");
+
+        jLabel2.setText("Estado");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,11 +107,13 @@ public class main extends javax.swing.JFrame {
                     .addComponent(canvas1, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jToggleButton1)
-                        .addGap(151, 151, 151)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)
-                        .addGap(59, 59, 59)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1)))
                 .addContainerGap())
         );
@@ -117,17 +122,15 @@ public class main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jToggleButton1)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jToggleButton1)
+                        .addComponent(jButton1)
+                        .addComponent(jButton2))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -135,7 +138,7 @@ public class main extends javax.swing.JFrame {
 
     private void canvas1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MousePressed
     
-        
+        jLabel2.setText( "Estado:Excelente");
         g.setColor(Color.getHSBColor(a, b, c));
         g2.setColor(Color.getHSBColor(a, b, c));
         
@@ -164,6 +167,7 @@ public class main extends javax.swing.JFrame {
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
         Borrar();
+        jLabel2.setText( "Estado");
         lineas.clear();
         coun=0;
         jLabel1.setText( Integer.toString(coun));
@@ -184,6 +188,9 @@ public class main extends javax.swing.JFrame {
     private void canvas1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canvas1MouseReleased
         if(lineas.size()-2!=lineas.get(lineas.size()-1).getPuntos().size()-1||error==true)
         {
+            if(error==false){
+                jLabel2.setText( "Falto Interseccionar");
+            }
             error=false;
             
             for (Punto temp : lineas.get(lineas.size()-1).getPuntos()) { 
@@ -193,13 +200,14 @@ public class main extends javax.swing.JFrame {
                         {
                             temp2.getLinea_ant().Borrar(n);
                             coun--;
-                            jLabel1.setText( Integer.toString(coun));
+                            
                             break;
                         }
                         n++;
                 
                     }
             }
+            jLabel1.setText( Integer.toString(coun));
             lineas.remove(lineas.size()-1);
             Repintar();
             
@@ -393,7 +401,7 @@ public class main extends javax.swing.JFrame {
     }
     void validar(int col,int col1,int col2,int col3,int col4,int x,int y)
     {
-        int color;
+        
         //Buscar Intersecciones 
         if((col1!=0 && col1!=colant && col1==col2 && valid==true)||(col3!=0 && col3!=colant && col3==col4 && valid==true)||(col!=0  && col!=colant && valid==true))
         {
@@ -405,23 +413,37 @@ public class main extends javax.swing.JFrame {
             for (Linea ltemp : lineas) {
                 if(col!=0 && ltemp.getColor()==col||col1!=0 && ltemp.getColor()==col1||col3!=0 && ltemp.getColor()==col3)
                 {
-                    for (Punto punto : lineas.get(lineas.size()-1).getPuntos()) {
-                        if(punto.getLinea_ant().getColor()==ltemp.getColor())
+                        
+                        for (Punto punto : lineas.get(lineas.size()-1).getPuntos())
                         {
-                            error=true;
-                            coun--;
-                            break;
+                            if(punto.getLinea_ant().getColor()==ltemp.getColor()){
+                                jLabel2.setText( "Linea Ambigua");
+                                error=true;
+                                coun--;
+                                break;
+                            }
                         }
                         
-                
-                    }
-                    if(error==false)
-                    {
-                  
-                        lineas.get(lineas.size()-1).setPunto(new Punto(ltemp,lineas.get(lineas.size()-1),x,y));
-                        ltemp.setPunto(new Punto(ltemp,lineas.get(lineas.size()-1),x,y));
+                        if(error==false)
+                        {
+                            
+                            for (Punto punto : ltemp.getPuntos()) {
+                                if(punto.getPunto().distance(x, y)<=15){
+                                    error=true;
+                                    coun--;
+                                    jLabel2.setText( "Interseccion Ambigua");
+                                    break;
+                                }
+                            }
+                            if(error==false)
+                            {
+                                lineas.get(lineas.size()-1).setPunto(new Punto(ltemp,lineas.get(lineas.size()-1),x,y));
+                                ltemp.setPunto(new Punto(ltemp,lineas.get(lineas.size()-1),x,y));
+                            }
+                            
+                            
+                        }
                         
-                    }
                     
                     break;
                     
@@ -486,6 +508,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }
