@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -176,7 +177,8 @@ public class main extends javax.swing.JFrame {
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-       
+       Ordenar();
+ 
        
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -500,6 +502,18 @@ public class main extends javax.swing.JFrame {
             
         }
         
+    }
+    void Ordenar()
+    {
+        for (Linea ltemp : lineas) {
+             for (Punto punto : ltemp.getPuntos()) {
+                 double orden=ltemp.getTrazo().get(0).distance(punto.getPunto());
+                 punto.setOrden(orden);
+                 
+             }
+             Collections.sort(ltemp.getPuntos());
+         }
+
     }
     
 

@@ -7,15 +7,27 @@ package Graficar;
 
 
 import java.awt.Point;
-
+import java.util.*;
 /**
  *
  * @author Edson Al
  */
-public class Punto {
+public class Punto implements Comparable<Punto> {
     private Point punto;
     private Linea linea_ant;
     private Linea linea_sig;
+    private double orden;
+    
+    @Override
+        public int compareTo(Punto o) {
+            if (orden < o.orden) {
+                return -1;
+            }
+            if (orden > o.orden) {
+                return 1;
+            }
+            return 0;
+        }
 
     public Punto(Linea linea1,Linea linea2,int x,int y) {
         this.punto = new Point(x,y);
@@ -23,6 +35,10 @@ public class Punto {
         this.linea_sig = linea2;
     }
 
+    public void setOrden(double orden) {
+        this.orden = orden;
+    }
+    
     public Point getPunto() {
         return punto;
     }
