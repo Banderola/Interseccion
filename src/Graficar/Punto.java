@@ -8,6 +8,7 @@ package Graficar;
 
 import java.awt.Point;
 import java.util.*;
+
 /**
  *
  * @author Edson Al
@@ -17,7 +18,7 @@ public class Punto implements Comparable<Punto> {
     private Linea linea_ant;
     private Linea linea_sig;
     private double orden;
-    
+    private int marca;
     @Override
         public int compareTo(Punto o) {
             if (orden < o.orden) {
@@ -33,6 +34,7 @@ public class Punto implements Comparable<Punto> {
         this.punto = new Point(x,y);
         this.linea_ant = linea1;
         this.linea_sig = linea2;
+        this.marca=0;
     }
 
     public void setOrden(double orden) {
@@ -50,6 +52,21 @@ public class Punto implements Comparable<Punto> {
     public Linea getLinea_sig() {
         return linea_sig;
     }
+
+    public int getMarca() {
+        return marca;
+    }
+
+    public void setMarca(int marca) {
+        this.marca = marca;
+    }
+    public Punto clone()  {
+        Punto clon = new Punto(this.linea_ant,this.linea_sig,(int)this.punto.getX(),(int)this.punto.getY());
+        clon.orden=this.orden;
+        
+        return clon;
+    }
+    
     
     
 }

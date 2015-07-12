@@ -31,7 +31,9 @@ public class main extends javax.swing.JFrame {
     int coun=0;
     boolean valid=true;
     int esp=0;
-    
+    int count2=0;
+    int count3=0;
+    int contador=0;
     public main() {
         
         initComponents();
@@ -54,6 +56,10 @@ public class main extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,6 +104,17 @@ public class main extends javax.swing.JFrame {
 
         jLabel2.setText("Estado");
 
+        jLabel3.setText("0");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Δ");
+        jLabel4.setToolTipText("");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setText("□");
+
+        jLabel6.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,16 +122,24 @@ public class main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(canvas1, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+                    .addComponent(canvas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jToggleButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(32, 32, 32)
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
                         .addComponent(jButton1)))
                 .addContainerGap())
         );
@@ -124,14 +149,22 @@ public class main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jToggleButton1)
-                        .addComponent(jButton1)
-                        .addComponent(jButton2))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jToggleButton1))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jButton1)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6)
+                            .addComponent(jButton2))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -171,13 +204,154 @@ public class main extends javax.swing.JFrame {
         jLabel2.setText( "Estado");
         lineas.clear();
         coun=0;
-        jLabel1.setText( Integer.toString(coun));
+        count2=0;
+        count3=0;
+        jLabel1.setText( Integer.toString(0));
+        jLabel3.setText( Integer.toString(0));
+        jLabel6.setText( Integer.toString(0));
         
     }//GEN-LAST:event_jToggleButton1ActionPerformed
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-       Ordenar();
+                Ordenar();
+                Marcas marcas=new Marcas();
+                Marcas merror=new Marcas();
+                Boolean cambio=false;
+                Boolean error2=false;
+                int contemp=0;
+                boolean eliminar=false;
+                int lcol=23456;
+                Punto next=lineas.get(0).getPuntos().get(0);
+                marcas.Add(next, lcol);
+                Linea siguiente;
+                
+                do{
+                //----------------------Localizar Linea-------------------------  
+                    if(next.getLinea_ant().getColor()!=lcol)
+                    {
+                        siguiente=next.getLinea_ant();
+                        
+                    }
+                    else 
+                    {
+                       siguiente=next.getLinea_sig(); 
+                        
+                    }
+                     
+                    int n=Buscar(siguiente,next.getPunto());
+                //------------------------incrucijada---------------------------
+                    if(n<siguiente.getPuntos().size()-1 && n>0 )
+                    {
+                               
+                                //--Cambiar direccion a La izquierda--
+                                if(cambio==true)
+                                {
+                                    cambio=false;
+                                    if(error2==false)
+                                    {
+                                       eliminar=true;
+                                       marcas.SetMarcar();
+                                       contador=0;
+                                       
+                                    }
+                                    else
+                                    {
+                                        contador=contemp;
+                                    }
+                                    error2=false;
+                                    next=siguiente.getPuntos().get(n-1).clone();
+                                    
+                                }
+                                
+                                //--Cambiar direccion a La Derecha--
+                                else
+                                {
+                                    if(marcas.Add(next, lcol)==true)
+                                    {
+                                        contador=0;
+                                        if(eliminar==true)
+                                        {
+                                            contador++;
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        merror.Add(next, lcol);
+                                        error2=true;
+                                        contemp=contador;
+                                    }
+                                    next=siguiente.getPuntos().get(n+1).clone();
+                                }
+                                
+                                lcol=siguiente.getColor();
+                                
+                    }
+                //-------------------Derecha libre------------------------------
+                    else if(n<siguiente.getPuntos().size()-1)
+                    {
+                                next=siguiente.getPuntos().get(n+1).clone();
+                                lcol=siguiente.getColor();
+                                
+                    }
+                //-------------------Izquierda libre----------------------------
+                    else if(n>0)
+                    {
+                                next=siguiente.getPuntos().get(n-1).clone();
+                                lcol=siguiente.getColor();
+                    }
+                //--------------------Encontrar Marcas--------------------------   
+                    if(marcas.ObtenerPoint().distance(next.getPunto())==0 )
+                    {
+                            if(error2==true)
+                            {
+                                merror.Clear();
+                                error2=false;
+                            }
+                            //---Contar Triangulos---
+                            if(contador==2)
+                            {
+                                count2++;
+                                jLabel3.setText( Integer.toString(count2));
+                            }
+                             //---Contar Cuadrados--- 
+                            else if(contador==3)
+                            {
+                                count3++;
+                                jLabel6.setText( Integer.toString(count3));
+                            }
+                            
+                            
+                           //----Eliminar Marca-----
+                           if(eliminar==true)
+                           {
+                               eliminar=false;
+                               marcas.Del();
+                           }
+                           
+                           lcol=marcas.ObtenerColor();
+                           next=marcas.ObtenerValor();
+                           cambio=true;
+                           
+                    }
+                        
+                        
+            //--------------Encontrar Errores-----------------------------------
+                    else if(merror.ObtenerPoint().distance(next.getPunto())==0 )
+                    {
+                            lcol=merror.ObtenerColor();
+                            next=merror.ObtenerValor();
+                            cambio=true;
+                    }
+                        
+                    contador++;
+                    
+                }while(marcas.elementos()==false);
+                
+                       
+            
+       
  
        
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -430,7 +604,7 @@ public class main extends javax.swing.JFrame {
                         {
                             
                             for (Punto punto : ltemp.getPuntos()) {
-                                if(punto.getPunto().distance(x, y)<=15){
+                                if(punto.getPunto().distance(x, y)<=3){
                                     error=true;
                                     coun--;
                                     jLabel2.setText( "Interseccion Ambigua");
@@ -515,6 +689,21 @@ public class main extends javax.swing.JFrame {
          }
 
     }
+    int Buscar(Linea linea,Point punto)
+    {
+        int index=0;
+        for (int i=0;i<linea.getPuntos().size();i++) {
+           if(linea.getPuntos().get(i).getPunto().getX()==punto.getX()&& linea.getPuntos().get(i).getPunto().getY()==punto.getY()) 
+           {
+               index=i;
+               break;
+           }
+        }
+        return index;
+    }
+    
+   
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -523,6 +712,10 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }
