@@ -59,7 +59,7 @@ public class Marcas {
               if(marcas.get(j).isDelet()==true)
               {
                   in=j-1;
-                  //break;
+                  break;
               }
                 
             }
@@ -74,13 +74,13 @@ public class Marcas {
     }
     public Point ObtenerPoint()
     {
-        if(marcas.size()>0)
+        if(marcas.size()>0 && ObtenerIndex()>=0)
         {
             return marcas.get(ObtenerIndex()).getPunto().getPunto();
         }
         else
         {
-            return new Point(100,100);
+            return new Point(0,0);
         }
             
         
@@ -157,5 +157,44 @@ public class Marcas {
         marcas.get(ObtenerIndex()).setMoribundo(true);
         
     }
+
+    public int getNumerror() {// corregir
+        if(ObtenerIndex()>0)
+        {
+            return marcas.get(ObtenerIndex()+1).getNumerror();
+        }
+        else if(marcas.size()>1)
+        {
+            return marcas.get(1).getNumerror();
+        }
+        else
+        {
+             return marcas.get(0).getNumerror();
+        }
+            
+        
+    }
+
+    public void setNumerror(int numerror) {
+        
+        if(marcas.size()!=0)
+        {
+            marcas.get(ObtenerIndex()).setNumerror(numerror);
+        }
+       
+    }
+    public int getError(int index)
+    {
+        return marcas.get(index).getNumerror();
+    }
+    
+    public Punto Valor(int index) {
+       return marcas.get(index).getPunto();
+    }
+    public int Color(int index) {
+        return marcas.get(index).getColor();
+    }
+    
+    
      
 }

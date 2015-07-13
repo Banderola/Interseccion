@@ -14,12 +14,14 @@ public class Trivial {
     private int color;
     private boolean delet;
     private boolean moribundo;
+    private int numerror;
     
     public Trivial(Punto punto, int color) {
         this.punto = punto;
         this.color = color;
         this.delet = false;
         this.moribundo=false;
+        this.numerror=0;
     }
 
     public Punto getPunto() {
@@ -45,6 +47,15 @@ public class Trivial {
     public void setMoribundo(boolean moribundo) {
         this.moribundo = moribundo;
     }
+
+    public int getNumerror() {
+        return numerror;
+    }
+
+    public void setNumerror(int numerror) {
+        this.numerror = numerror;
+    }
+    
     
     
 }
